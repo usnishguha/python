@@ -1,0 +1,60 @@
+import random
+user_score = 0
+celebrity_instagram_followers = {
+    "Cristiano Ronaldo": 647000000,
+    "Lionel Messi": 504000000,
+    "Selena Gomez": 423000000,
+    "Kylie Jenner": 395000000,
+    "Dwayne Johnson (The Rock)": 394000000,
+    "Ariana Grande": 376000000,
+    "Kim Kardashian": 359000000,
+    "Beyoncé": 313000000,
+    "Khloé Kardashian": 305000000,
+    "Justin Bieber": 295000000,
+    "Kendall Jenner": 290000000,
+    "Taylor Swift": 283000000,
+    "Virat Kohli": 270000000,
+    "Jennifer Lopez": 249000000,
+    "Nicki Minaj": 227000000,
+    "Neymar": 227000000,
+    "Kourtney Kardashian": 220000000,
+    "Miley Cyrus": 213000000,
+    "Katy Perry": 205000000,
+    "Zendaya": 180000000,
+    "Kevin Hart": 177000000,
+    "LeBron James": 159000000,
+    "Demi Lovato": 154000000,
+    "Rihanna": 150000000,
+    "Chris Brown": 144000000,
+    "Drake": 143000000,
+    "Ellen DeGeneres": 137000000,
+    "Kylian Mbappé": 122000000,
+}
+chosen_celeb1 = random.choice(list(celebrity_instagram_followers.keys()))
+def compare(u_celeb,c_celeb):
+    if celebrity_instagram_followers[u_celeb] > celebrity_instagram_followers[c_celeb]:
+        return ("Win")
+    else:
+        return ("Lose")
+run = "y"
+while run == "y":
+    chosen_celeb2 = random.choice(list(celebrity_instagram_followers.keys()))
+    if chosen_celeb1 == chosen_celeb2:
+        chosen_celeb2 = random.choice(list(celebrity_instagram_followers.keys()))
+    else:
+        user_guess=input(f"Compare A: {chosen_celeb1} and B: {chosen_celeb2} ")
+        if user_guess == "A":
+            user_celeb = chosen_celeb1
+            computer_celeb = chosen_celeb2
+        elif user_guess == "B":
+            user_celeb = chosen_celeb2
+            computer_celeb = chosen_celeb1
+    result = compare(user_celeb,computer_celeb)
+    if result == "Win":
+        chosen_celeb1 = user_celeb
+        user_score += 1
+        print (f"You Win. Your Current Score: {user_score}")
+        run = input("Do you want to continue: ").lower()
+    elif result == "Lose":
+        run = "N"
+        print (f"You Lose. Your Score: {user_score}\nExiting the game")
