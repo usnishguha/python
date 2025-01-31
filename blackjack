@@ -1,0 +1,77 @@
+
+import random
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+player_cards = []
+dealer_cards = []
+
+def draw_card(​name):
+    if name == "player":
+        player_card = (random.choice(cards))
+        player_cards.append(player_card)
+    elif name == "dealer":
+        dealer_card = (random.choice(cards))
+        dealer_cards.append(dealer_card)
+
+def reveal_card(name):
+    if name == "player":
+        print(player_cards)
+    elif name == "dealer":
+        print(f"Dealer's first card: {dealer_cards[0]}")
+
+def calculate_score(name):
+    if name == "player":
+        if 11 in player_cards and sum(player_cards) > 21:
+            return sum(player_cards) - 10
+        else: return (sum(player_cards))
+    elif name == "dealer":
+        if 11 in dealer_cards and sum(dealer_cards) > 21:
+            return sum(player_cards) - 10
+        else: return sum(dealer_cards)
+
+
+draw_card('player')
+draw_card('player')
+
+draw_card('dealer')
+draw_card('dealer')
+
+reveal_card('player')
+reveal_card('dealer')
+
+
+run = "Y"
+while run == "Y":
+    run = input("Do you want to draw cards: Y or N? ")
+    player_score = calculate_score('player')
+    dealer_score = calculate_score('dealer')
+    if run == "Y":
+        draw_card('player')
+        reveal_card('player')
+        player_score = calculate_score('player')
+        dealer_score = calculate_score('dealer')
+        if player_score == 21 or dealer_score == 21:
+            run = "N"
+            if player_score == dealer_score:
+                print("Its a draw")
+            elif dealer_score == 21:
+                print("Dealer has blackjack")
+            elif player_score == 21 and dealer_score != 21:
+                print("You have blackjack")
+        elif player_score > 21:
+            run = "N"
+            print("You are busted")
+        elif dealer_score > 21:
+            run = "N"
+            print("Dealer is busted")
+
+    elif run == "N" and player_score < 21 and dealer_score < 21:
+        draw_card('dealer')
+        player_score = calculate_score('player')
+        dealer_score = calculate_score('dealer')
+        if player_score > dealer_score:
+
+            print("Player wins")
+        elif player_score < dealer_score:
+            print("Dealer wins")
+        else: print ("Its a draw")
