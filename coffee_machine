@@ -1,0 +1,72 @@
+# Coffee machine stock and prices
+coffee_machine_stock = {
+    "water": 1000,  # in ml
+    "milk": 500,  # in ml
+    "coffee powder": 100,  # in g
+    "money": 0.00  # in dollars
+}
+
+coffee_prices = {
+    "espresso": 2.50,
+    "latte": 3.50,
+    "cappuccino": 4.00
+}
+
+coffee_recipes = {
+    "espresso": {"water": 30, "coffee powder": 7},
+    "latte": {"water": 30, "milk": 150, "coffee powder": 7},
+    "cappuccino": {"water": 30, "milk": 100, "coffee powder": 7}
+}
+
+def print_report():
+    print(f"Water: {coffee_machine_stock['water']}ml")
+    print(f"Milk: {coffee_machine_stock['milk']}ml")
+    print(f"Coffee: {coffee_machine_stock['coffee powder']}g")
+    print(f"Money: ${coffee_machine_stock['money']}")
+
+def check_resources(coffee_type):
+    for ingredient, required in coffee_recipes[coffee_type].items():
+        if coffee_machine_stock[ingredient] < required:
+            print(f"Sorry, there is not enough {ingredient}.")
+            return False
+    return True
+
+def process_coins():
+    print("Please insert coins.")
+    quarters = int(input("How many quarters? ")) * 0.25
+    dimes = int(input("How many dimes? ")) * 0.10
+    nickels = int(input("How many nickels? ")) * 0.05
+    pennies = int(input("How many pennies? ")) * 0.01
+    return round(quarters + dimes + nickels + pennies, 2)
+
+def process_transaction(coffee_type, amount):
+    if amount < coffee_prices[coffee_type]:
+        print("Sorry, that's not enough money. Money refunded.")
+        return False
+    else:
+        change = round(amount - coffee_prices[coffee_type], 2)
+        coffee_machine_stock["money"] += coffee_prices[coffee_type]
+        if change > 0:
+            print(f"Here is ${change} in change.")
+        return True
+
+def make_coffee(coffee_type):
+    for ingredient, amount in coffee_recipes[coffee_type].items():
+        coffee_machine_stock[ingredient] -= amount
+    print(f"Here is your {coffee_type}. Enjoy!")
+
+while True:
+    choice = input("What would you like? (espresso/latte/cappuccino): ").lower()
+    
+    if choice == "off":
+        print("Turning off the coffee machine.")
+        break
+    elif choice == "report":
+        print_report()
+    elif choice in coffee_recipes:
+        if check_resources(choice):
+            payment = process_coins()
+            if process_transaction(choice, payment):
+                make_coffee(choice)
+    else:
+        print("Invalid choice. Please choose again.")
